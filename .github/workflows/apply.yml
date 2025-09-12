@@ -141,7 +141,7 @@ jobs:
 #######################################################################
   EKS:
     runs-on: ubuntu-latest
-    name: "alb - Apply"
+    name: "eks - Apply"
     needs: SG # Wait for the VPC job to complete
     defaults:
       run:
@@ -156,7 +156,7 @@ jobs:
 
     steps:
     - name: Checkout repo
-      uses: actions/checkout@v4
+      uses: actions/checkout@v3
 
     - name: Configure AWS credentials from role
       uses: aws-actions/configure-aws-credentials@v4
@@ -166,7 +166,7 @@ jobs:
           aws-region: us-east-1
 
     - name: Install Terraform
-      uses: hashicorp/setup-terraform@v4
+      uses: hashicorp/setup-terraform@v3
       with:
         terraform_version: 1.10.0
 
