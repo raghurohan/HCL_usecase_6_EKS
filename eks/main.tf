@@ -81,4 +81,5 @@ module "eks" {
   enable_cluster_creator_admin_permissions = true
 
   tags = var.common_tags
+  }
 }
