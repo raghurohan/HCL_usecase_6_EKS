@@ -1,0 +1,196 @@
+name: Terraform Destroy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to deploy'
+        required: true
+        default: 'dev'
+
+jobs:
+  alb:
+    runs-on: ubuntu-latest
+    name: "alb - destroy"
+    defaults:
+      run:
+        working-directory: ./alb/
+    
+#When using aws-actions/configure-aws-credentials with OIDC, you must give 
+#the job permission to request an OIDC ID token from GitHub
+
+    permissions: #OIDC IAM Related
+      id-token: write   # required for requesting OIDC token
+      contents: read    # required for actions/checkout
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials from role
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+          role-to-assume: arn:aws:iam::180294178330:role/github_trust_role
+          role-session-name: github-actions
+          aws-region: us-east-1
+
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.10.0
+
+    - name: Terraform Format
+      run: terraform fmt -recursive
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Validate
+      run: terraform validate 
+
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan
+        
+    - name: terraform destroy
+      run: terraform destroy -auto-approve
+
+######################################################################
+  eks:
+    runs-on: ubuntu-latest
+    name: "eks - destroy"
+    needs: alb # Wait for the alb job to complete
+    defaults:
+      run:
+        working-directory: ./eks/
+    
+#When using aws-actions/configure-aws-credentials with OIDC, you must give 
+#the job permission to request an OIDC ID token from GitHub
+
+    permissions: #OIDC IAM Related
+      id-token: write   # required for requesting OIDC token
+      contents: read    # required for actions/checkout
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials from role
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+          role-to-assume: arn:aws:iam::180294178330:role/github_trust_role
+          role-session-name: github-actions
+          aws-region: us-east-1
+
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.10.0
+
+    - name: Terraform Format
+      run: terraform fmt -recursive
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Validate
+      run: terraform validate 
+
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan
+        
+    - name: terraform destroy
+      run: terraform destroy -auto-approve
+  
+############################################################################  
+  sg:
+    runs-on: ubuntu-latest
+    name: "SG - destroy"
+    needs: eks # Wait for the VPC job to complete
+    defaults:
+      run:
+        working-directory: ./sg/
+    
+#When using aws-actions/configure-aws-credentials with OIDC, you must give 
+#the job permission to request an OIDC ID token from GitHub
+
+    permissions: #OIDC IAM Related
+      id-token: write   # required for requesting OIDC token
+      contents: read    # required for actions/checkout
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials from role
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+          role-to-assume: arn:aws:iam::180294178330:role/github_trust_role
+          role-session-name: github-actions
+          aws-region: us-east-1
+
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.10.0
+
+    - name: Terraform Format
+      run: terraform fmt -recursive
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Validate
+      run: terraform validate 
+
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan
+        
+    - name: terraform destroy
+      run: terraform destroy -auto-approve
+
+#######################################################################  
+  vpc:
+    runs-on: ubuntu-latest
+    name: "VPC - Destroy"
+    needs: sg # Wait for the VPC job to complete
+    defaults:
+      run:
+        working-directory: ./vpc/
+    
+#When using aws-actions/configure-aws-credentials with OIDC, you must give 
+#the job permission to request an OIDC ID token from GitHub
+
+    permissions: #OIDC IAM Related
+      id-token: write   # required for requesting OIDC token
+      contents: read    # required for actions/checkout
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+
+    - name: Configure AWS credentials from role
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+          role-to-assume: arn:aws:iam::180294178330:role/github_trust_role
+          role-session-name: github-actions
+          aws-region: us-east-1
+
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.10.0
+
+    - name: Terraform Format
+      run: terraform fmt -recursive
+
+    - name: Terraform Init
+      run: terraform init
+
+    - name: Terraform Validate
+      run: terraform validate 
+
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan
+        
+    - name: terraform destroy
+      run: terraform destroy -auto-approve

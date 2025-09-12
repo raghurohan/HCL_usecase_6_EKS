@@ -1,0 +1,59 @@
+name: Build and Push Appointment Image to ECR
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1            
+  ECR_REPOSITORY: apiflask 
+  IMAGE_TAG: latest
+
+jobs:
+  appointment:
+    runs-on: ubuntu-latest
+    name: "apiflask - Apply"
+    defaults:
+      run:
+        working-directory: ./apiflask/
+
+#When using aws-actions/configure-aws-credentials with OIDC, you must give 
+#the job permission to request an OIDC ID token from GitHub
+
+    permissions: #OIDC IAM Related
+      id-token: write   # required for requesting OIDC token
+      contents: read    # required for actions/checkout
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
+      
+    - name: Configure AWS credentials from role
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+          role-to-assume: arn:aws:iam::180294178330:role/github_trust_role
+          role-session-name: github-actions
+          aws-region: us-east-1
+
+    - name: Create ECR repo if not exists
+      run: |
+        aws ecr describe-repositories --repository-names $ECR_REPOSITORY --region $AWS_REGION ||
+        aws ecr create-repository --repository-name $ECR_REPOSITORY --region $AWS_REGION
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v2
+
+    - name: Build Docker image
+      run: |
+          docker build -t $ECR_REPOSITORY:$IMAGE_TAG .
+
+    - name: Tag image with ECR URL
+      run: |
+          ACCOUNT_ID=$(aws sts get-caller-identity --query Account --output text)
+          ECR_URI="$ACCOUNT_ID.dkr.ecr.${AWS_REGION}.amazonaws.com/$ECR_REPOSITORY"
+          docker tag $ECR_REPOSITORY:$IMAGE_TAG $ECR_URI:$IMAGE_TAG
+          echo "ECR_URI=$ECR_URI" >> $GITHUB_ENV
+
+    - name: Push Docker image to ECR
+      run: |
+          docker push $ECR_URI:$IMAGE_TAG
