@@ -1,6 +1,6 @@
 # security groups required for the project
 
-module "eks_control_plance_sg" {
+module "eks_control_plane_sg" {
   source       = "git::https://github.com/raghuatharva/terraform-aws-security-group.git?ref=main"
   vpc_id       = local.vpc_id
   sg_name      = "control plane "
