@@ -1,0 +1,96 @@
+To explain the ff.json plan file iam creating this ; 
+
+// Terraform is going to create a VPC resource.
+// The CIDR block is a public address range (8.8.8.0/24) → NOT recommended for private infra.
+// The tags are empty → Violates common org policies (must have project, environment tags).
+
+##############----- terraform plan ------##########################################
+{
+  "resource_changes": [
+    {
+      "address": "module.vpc.aws_vpc.main",
+      "mode": "managed",
+      "type": "aws_vpc",
+      "name": "main",
+      "change": {
+        "actions": ["create"], # This resource will be CREATED
+        "after": {
+          "cidr_block": "8.8.8.0/24", # The VPC will use a public CIDR
+          "tags": {}   # No tags provided (missing project/environment)
+        }
+      }
+    }
+  ]
+}
+######### output result ##################
+
+#This is just a sample output file for a terraform plan file ff.json... 
+{
+  "result": [
+    {
+      "expressions": [
+        {
+          "value": {
+            "main": {
+              "deny": {},
+              "vpc_changes": {
+                "{\"address\":\"module.vpc.aws_vpc.main\",\"change\":{\"actions\":[\"create\"],\"after\":{\"cidr_block\":\"8.8.8.0/24\",\"tags\":{}}},\"mode\":\"managed\",\"name\":\"main\",\"type\":\"aws_vpc\"}": true 
+              }
+            }
+          },
+          "text": "data",
+          "location": {
+            "row": 1,
+            "col": 1
+          }
+        }
+      ]
+    }
+  ]
+}
+#######------ OPA policy --------#############################################
+whats the OPA policy i have given ?
+deny[msg] {
+    rc := input.resource_changes[_]
+    rc.type == "aws_vpc"
+    rc.change.actions[_] == "update"    # Prevent updates
+    addr := rc.address
+    msg := sprintf("VPC '%v' should not be updated. Changes are not allowed in production.", [addr])
+}
+
+deny[msg] {
+    rc := input.resource_changes[_]
+    rc.type == "aws_vpc"
+    rc.change.actions[_] == "create"    # Prevent creation (only allow pre-existing VPCs)
+    addr := rc.address
+    msg := sprintf("VPC '%v' should not be created. VPCs must be pre-created and managed separately.", [addr])
+}
+
+---> This means vpc should not be updated at all [ you cant change cidr blocks or update tags]
+    and he cant create vpc with this opa policy is in place; he has to create separately
+    Checks tags:
+    ✔ Fails if project or environment tags are missing.
+    Since the input violates both rules (public CIDR + missing tags), the OPA policy should report 3 deny messages
+#################################################################
+Example: IN PRODUCTION
+If someone tries to create a new VPC or update an existing one → The policy will DENY and output messages like:
+resource "aws_vpc" "example" {
+vpc_cidr = "10.0.4.0/16"
+tags = {
+  project = "myproj"
+  environment = "dev"
+    }
+}
+
+OUTPUT:
+VPC 'module.vpc.aws_vpc.main' should not be created. VPCs must be pre-created and managed separately.
+VPC 'module.vpc.aws_vpc.main' should not be updated. Changes are not allowed in production.
+#################################################
+
+✅ Why this is important in DevOps
+----------------------------------
+Enforces immutability for core infrastructure.
+Prevents accidental destructive changes to production.
+Acts as a safety gate in CI/CD pipelines.
+Helps your team move to GitOps (where only approved resources change).
+

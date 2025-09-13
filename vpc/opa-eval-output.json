@@ -1,0 +1,24 @@
+#This is just a sample output file for a terraform plan file ff.json... 
+{
+  "result": [
+    {
+      "expressions": [
+        {
+          "value": {
+            "main": {
+              "deny": {},
+              "vpc_changes": {
+                "{\"address\":\"module.vpc.aws_vpc.main\",\"change\":{\"actions\":[\"create\"],\"after\":{\"cidr_block\":\"8.8.8.0/24\",\"tags\":{}}},\"mode\":\"managed\",\"name\":\"main\",\"type\":\"aws_vpc\"}": true
+              }
+            }
+          },
+          "text": "data",
+          "location": {
+            "row": 1,
+            "col": 1
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "resource_changes": [
+    {
+      "address": "module.vpc.aws_vpc.main",
+      "mode": "managed",
+      "type": "aws_vpc",
+      "name": "main",
+      "change": {
+        "actions": ["create"],
+        "after": {
+          "cidr_block": "8.8.8.0/24",
+          "tags": {}
+        }
+      }
+    }
+  ]
+}
