@@ -103,7 +103,7 @@ jobs:
 
     - name: Run OPA Rego Policy Check
       run: |
-        opa eval --data ./policies --input ./tfplan.json "data" > opa-eval-output.json || true
+        opa eval --data ./policy_opa --input ./tfplan.json "data" > opa-eval-output.json || true
 
     - name: Upload OPA Eval Output as Artifact
       uses: actions/upload-artifact@v4
