@@ -82,6 +82,7 @@ warn_contains msg if {
   not some rc2 {
   rc2 := input.resource_changes[_]
   rc2.type == "aws_vpc_peering_connection"  # provider-specific; optional
-  msg := "Module 'vpc' requested peering (is_peering_required=true) but plan contains no aws_vpc_peering_connection resources. Verify the module or set the flag appropriately."
   }
+  msg := "Module 'vpc' requested peering (is_peering_required=true) but plan contains no aws_vpc_peering_connection resources. Verify the module or set the flag appropriately."
+  
 }
