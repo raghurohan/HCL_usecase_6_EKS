@@ -73,7 +73,7 @@ jobs:
         curl -sSLo ./terraform-docs.tar.gz https://terraform-docs.io/dl/v0.20.0/terraform-docs-v0.20.0-$(uname)-amd64.tar.gz
         tar -xzf terraform-docs.tar.gz
         chmod +x terraform-docs
-        mv terraform-docs /some-dir-in-your-PATH/terraform-docs
+        mv terraform-docs /usr/local/bin/
         
     - name: Generate terraform-docs
       run: terraform-docs markdown table . > terraform-docs.md
