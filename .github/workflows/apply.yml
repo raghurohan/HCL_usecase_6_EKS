@@ -44,7 +44,6 @@ jobs:
     - name: Run TFLint and Save Output
       run: |
         tflint --format json > tflint-output.json || true
-        tflint --format text > tflint-output.txt || true
 
     - name: Upload TFLint Output as Artifact
       uses: actions/upload-artifact@v4
@@ -83,22 +82,6 @@ jobs:
       with:
         name: terraform-docs
         path: ./vpc/terraform-docs.md
-
-    - name: Install OPA
-      run: |
-        curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
-        chmod +x opa
-        mv opa /usr/local/bin/
-
-    - name: Run OPA Rego Policy Check
-      run: |
-        opa eval --data ./policies --input ./input.json "data" > opa-eval-output.json || true
-
-    - name: Upload OPA Eval Output as Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: opa-eval-report
-        path: ./vpc/opa-eval-output.json
 
     - name: Terraform Init
       run: terraform init -upgrade
