@@ -1,0 +1,995 @@
+[
+    {
+        "check_type": "terraform",
+        "results": {
+            "passed_checks": [
+                {
+                    "check_id": "CKV_AWS_337",
+                    "bc_check_id": "BC_AWS_GENERAL_242",
+                    "check_name": "Ensure SSM parameters are using KMS CMK",
+                    "check_result": {
+                        "result": "PASSED",
+                        "evaluated_keys": [
+                            "key_id"
+                        ]
+                    },
+                    "code_block": [
+                        [
+                            1,
+                            "resource \"aws_ssm_parameter\" \"vpc\" {\n"
+                        ],
+                        [
+                            2,
+                            "  name  = \"/${var.project}/${var.environment}/vpc_id\"\n"
+                        ],
+                        [
+                            3,
+                            "  type  = \"String\"\n"
+                        ],
+                        [
+                            4,
+                            "  value = module.vpc.vpc #last .vpc is the output name name of the root module\n"
+                        ],
+                        [
+                            5,
+                            "}\n"
+                        ]
+                    ],
+                    "file_path": "/parameters.tf",
+                    "file_abs_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "repo_file_path": "/parameters.tf",
+                    "file_line_range": [
+                        1,
+                        5
+                    ],
+                    "resource": "aws_ssm_parameter.vpc",
+                    "evaluations": null,
+                    "check_class": "checkov.terraform.checks.resource.aws.SSMParameterUsesCMK",
+                    "fixed_definition": null,
+                    "entity_tags": null,
+                    "caller_file_path": null,
+                    "caller_file_line_range": null,
+                    "resource_address": null,
+                    "severity": null,
+                    "bc_category": null,
+                    "benchmarks": null,
+                    "description": null,
+                    "short_description": null,
+                    "vulnerability_details": null,
+                    "connected_node": null,
+                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-337",
+                    "details": [],
+                    "check_len": null,
+                    "definition_context_file_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "breadcrumbs": {
+                        "name": [
+                            {
+                                "type": "variable",
+                                "name": "environment",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "check_id": "CKV_AWS_337",
+                    "bc_check_id": "BC_AWS_GENERAL_242",
+                    "check_name": "Ensure SSM parameters are using KMS CMK",
+                    "check_result": {
+                        "result": "PASSED",
+                        "evaluated_keys": [
+                            "key_id"
+                        ]
+                    },
+                    "code_block": [
+                        [
+                            7,
+                            "resource \"aws_ssm_parameter\" \"public_subnet_ids\" {\n"
+                        ],
+                        [
+                            8,
+                            "  name  = \"/${var.project}/${var.environment}/public_subnet_ids\"\n"
+                        ],
+                        [
+                            9,
+                            "  type  = \"StringList\"\n"
+                        ],
+                        [
+                            10,
+                            "  value = join(\",\", module.vpc.public_subnet_ids)\n"
+                        ],
+                        [
+                            11,
+                            "}\n"
+                        ]
+                    ],
+                    "file_path": "/parameters.tf",
+                    "file_abs_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "repo_file_path": "/parameters.tf",
+                    "file_line_range": [
+                        7,
+                        11
+                    ],
+                    "resource": "aws_ssm_parameter.public_subnet_ids",
+                    "evaluations": null,
+                    "check_class": "checkov.terraform.checks.resource.aws.SSMParameterUsesCMK",
+                    "fixed_definition": null,
+                    "entity_tags": null,
+                    "caller_file_path": null,
+                    "caller_file_line_range": null,
+                    "resource_address": null,
+                    "severity": null,
+                    "bc_category": null,
+                    "benchmarks": null,
+                    "description": null,
+                    "short_description": null,
+                    "vulnerability_details": null,
+                    "connected_node": null,
+                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-337",
+                    "details": [],
+                    "check_len": null,
+                    "definition_context_file_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "breadcrumbs": {
+                        "name": [
+                            {
+                                "type": "variable",
+                                "name": "environment",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "check_id": "CKV_AWS_337",
+                    "bc_check_id": "BC_AWS_GENERAL_242",
+                    "check_name": "Ensure SSM parameters are using KMS CMK",
+                    "check_result": {
+                        "result": "PASSED",
+                        "evaluated_keys": [
+                            "key_id"
+                        ]
+                    },
+                    "code_block": [
+                        [
+                            16,
+                            "resource \"aws_ssm_parameter\" \"private_subnet_ids\" {\n"
+                        ],
+                        [
+                            17,
+                            "  name  = \"/${var.project}/${var.environment}/private_subnet_ids\"\n"
+                        ],
+                        [
+                            18,
+                            "  type  = \"StringList\"\n"
+                        ],
+                        [
+                            19,
+                            "  value = join(\",\", module.vpc.private_subnet_ids)\n"
+                        ],
+                        [
+                            20,
+                            "}\n"
+                        ]
+                    ],
+                    "file_path": "/parameters.tf",
+                    "file_abs_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "repo_file_path": "/parameters.tf",
+                    "file_line_range": [
+                        16,
+                        20
+                    ],
+                    "resource": "aws_ssm_parameter.private_subnet_ids",
+                    "evaluations": null,
+                    "check_class": "checkov.terraform.checks.resource.aws.SSMParameterUsesCMK",
+                    "fixed_definition": null,
+                    "entity_tags": null,
+                    "caller_file_path": null,
+                    "caller_file_line_range": null,
+                    "resource_address": null,
+                    "severity": null,
+                    "bc_category": null,
+                    "benchmarks": null,
+                    "description": null,
+                    "short_description": null,
+                    "vulnerability_details": null,
+                    "connected_node": null,
+                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-337",
+                    "details": [],
+                    "check_len": null,
+                    "definition_context_file_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "breadcrumbs": {
+                        "name": [
+                            {
+                                "type": "variable",
+                                "name": "environment",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "check_id": "CKV_AWS_337",
+                    "bc_check_id": "BC_AWS_GENERAL_242",
+                    "check_name": "Ensure SSM parameters are using KMS CMK",
+                    "check_result": {
+                        "result": "PASSED",
+                        "evaluated_keys": [
+                            "key_id"
+                        ]
+                    },
+                    "code_block": [
+                        [
+                            22,
+                            "resource \"aws_ssm_parameter\" \"database_subnet_group\" {\n"
+                        ],
+                        [
+                            23,
+                            "  name  = \"/${var.project}/${var.environment}/database_subnet_group\"\n"
+                        ],
+                        [
+                            24,
+                            "  type  = \"String\"\n"
+                        ],
+                        [
+                            25,
+                            "  value = module.vpc.database_subnet_group\n"
+                        ],
+                        [
+                            26,
+                            "}"
+                        ]
+                    ],
+                    "file_path": "/parameters.tf",
+                    "file_abs_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "repo_file_path": "/parameters.tf",
+                    "file_line_range": [
+                        22,
+                        26
+                    ],
+                    "resource": "aws_ssm_parameter.database_subnet_group",
+                    "evaluations": null,
+                    "check_class": "checkov.terraform.checks.resource.aws.SSMParameterUsesCMK",
+                    "fixed_definition": null,
+                    "entity_tags": null,
+                    "caller_file_path": null,
+                    "caller_file_line_range": null,
+                    "resource_address": null,
+                    "severity": null,
+                    "bc_category": null,
+                    "benchmarks": null,
+                    "description": null,
+                    "short_description": null,
+                    "vulnerability_details": null,
+                    "connected_node": null,
+                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/bc-aws-337",
+                    "details": [],
+                    "check_len": null,
+                    "definition_context_file_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "breadcrumbs": {
+                        "name": [
+                            {
+                                "type": "variable",
+                                "name": "environment",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "check_id": "CKV_AWS_41",
+                    "bc_check_id": "BC_AWS_SECRETS_5",
+                    "check_name": "Ensure no hard coded AWS access key and secret key exists in provider",
+                    "check_result": {
+                        "result": "PASSED",
+                        "evaluated_keys": []
+                    },
+                    "code_block": [
+                        [
+                            2,
+                            "provider \"aws\" {\n"
+                        ],
+                        [
+                            3,
+                            "  #configuration options\n"
+                        ],
+                        [
+                            4,
+                            "  region = \"us-east-1\"\n"
+                        ],
+                        [
+                            5,
+                            "}\n"
+                        ]
+                    ],
+                    "file_path": "/provider.tf",
+                    "file_abs_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/provider.tf",
+                    "repo_file_path": "/provider.tf",
+                    "file_line_range": [
+                        2,
+                        5
+                    ],
+                    "resource": "aws.default",
+                    "evaluations": null,
+                    "check_class": "checkov.terraform.checks.provider.aws.credentials",
+                    "fixed_definition": null,
+                    "entity_tags": null,
+                    "caller_file_path": null,
+                    "caller_file_line_range": null,
+                    "resource_address": null,
+                    "severity": null,
+                    "bc_category": null,
+                    "benchmarks": null,
+                    "description": null,
+                    "short_description": null,
+                    "vulnerability_details": null,
+                    "connected_node": null,
+                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/secrets-policies/bc-aws-secrets-5",
+                    "details": [],
+                    "check_len": null,
+                    "definition_context_file_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/provider.tf"
+                }
+            ],
+            "failed_checks": [
+                {
+                    "check_id": "CKV_TF_1",
+                    "bc_check_id": "BC_CROSS_1",
+                    "check_name": "Ensure Terraform module sources use a commit hash",
+                    "check_result": {
+                        "result": "FAILED",
+                        "evaluated_keys": []
+                    },
+                    "code_block": [
+                        [
+                            1,
+                            "module \"vpc\" {\n"
+                        ],
+                        [
+                            2,
+                            "  source              = \"git::https://github.com/raghurohan/terraform-vpc-child-module.git?ref=main\"\n"
+                        ],
+                        [
+                            3,
+                            "  vpc_name            = var.vpc_name\n"
+                        ],
+                        [
+                            4,
+                            "  vpc_cidr            = var.vpc_cidr\n"
+                        ],
+                        [
+                            5,
+                            "  project             = var.project\n"
+                        ],
+                        [
+                            6,
+                            "  environment         = var.environment\n"
+                        ],
+                        [
+                            7,
+                            "  public_cidr         = var.public_cidr\n"
+                        ],
+                        [
+                            8,
+                            "  private_cidr        = var.private_cidr\n"
+                        ],
+                        [
+                            9,
+                            "  is_peering_required = var.is_peering_required\n"
+                        ],
+                        [
+                            10,
+                            "}\n"
+                        ]
+                    ],
+                    "file_path": "/vpc.tf",
+                    "file_abs_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/vpc.tf",
+                    "repo_file_path": "/vpc.tf",
+                    "file_line_range": [
+                        1,
+                        10
+                    ],
+                    "resource": "vpc",
+                    "evaluations": null,
+                    "check_class": "checkov.terraform.checks.module.generic.RevisionHash",
+                    "fixed_definition": null,
+                    "entity_tags": null,
+                    "caller_file_path": null,
+                    "caller_file_line_range": null,
+                    "resource_address": null,
+                    "severity": null,
+                    "bc_category": null,
+                    "benchmarks": null,
+                    "description": null,
+                    "short_description": null,
+                    "vulnerability_details": null,
+                    "connected_node": null,
+                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/supply-chain-policies/terraform-policies/ensure-terraform-module-sources-use-git-url-with-commit-hash-revision",
+                    "details": [],
+                    "check_len": null,
+                    "definition_context_file_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/vpc.tf",
+                    "breadcrumbs": {
+                        "project": [
+                            {
+                                "type": "variable",
+                                "name": "project",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "environment": [
+                            {
+                                "type": "variable",
+                                "name": "environment",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "vpc_cidr": [
+                            {
+                                "type": "variable",
+                                "name": "vpc_cidr",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "vpc_name": [
+                            {
+                                "type": "variable",
+                                "name": "vpc_name",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "public_cidr": [
+                            {
+                                "type": "variable",
+                                "name": "public_cidr",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "private_cidr": [
+                            {
+                                "type": "variable",
+                                "name": "private_cidr",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "is_peering_required": [
+                            {
+                                "type": "variable",
+                                "name": "is_peering_required",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "check_id": "CKV_TF_2",
+                    "bc_check_id": "BC_CROSS_2",
+                    "check_name": "Ensure Terraform module sources use a tag with a version number",
+                    "check_result": {
+                        "result": "FAILED",
+                        "evaluated_keys": []
+                    },
+                    "code_block": [
+                        [
+                            1,
+                            "module \"vpc\" {\n"
+                        ],
+                        [
+                            2,
+                            "  source              = \"git::https://github.com/raghurohan/terraform-vpc-child-module.git?ref=main\"\n"
+                        ],
+                        [
+                            3,
+                            "  vpc_name            = var.vpc_name\n"
+                        ],
+                        [
+                            4,
+                            "  vpc_cidr            = var.vpc_cidr\n"
+                        ],
+                        [
+                            5,
+                            "  project             = var.project\n"
+                        ],
+                        [
+                            6,
+                            "  environment         = var.environment\n"
+                        ],
+                        [
+                            7,
+                            "  public_cidr         = var.public_cidr\n"
+                        ],
+                        [
+                            8,
+                            "  private_cidr        = var.private_cidr\n"
+                        ],
+                        [
+                            9,
+                            "  is_peering_required = var.is_peering_required\n"
+                        ],
+                        [
+                            10,
+                            "}\n"
+                        ]
+                    ],
+                    "file_path": "/vpc.tf",
+                    "file_abs_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/vpc.tf",
+                    "repo_file_path": "/vpc.tf",
+                    "file_line_range": [
+                        1,
+                        10
+                    ],
+                    "resource": "vpc",
+                    "evaluations": null,
+                    "check_class": "checkov.terraform.checks.module.generic.RevisionVersionTag",
+                    "fixed_definition": null,
+                    "entity_tags": null,
+                    "caller_file_path": null,
+                    "caller_file_line_range": null,
+                    "resource_address": null,
+                    "severity": null,
+                    "bc_category": null,
+                    "benchmarks": null,
+                    "description": null,
+                    "short_description": null,
+                    "vulnerability_details": null,
+                    "connected_node": null,
+                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/supply-chain-policies/terraform-policies/ensure-terraform-module-sources-use-tag",
+                    "details": [],
+                    "check_len": null,
+                    "definition_context_file_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/vpc.tf",
+                    "breadcrumbs": {
+                        "project": [
+                            {
+                                "type": "variable",
+                                "name": "project",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "environment": [
+                            {
+                                "type": "variable",
+                                "name": "environment",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "vpc_cidr": [
+                            {
+                                "type": "variable",
+                                "name": "vpc_cidr",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "vpc_name": [
+                            {
+                                "type": "variable",
+                                "name": "vpc_name",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "public_cidr": [
+                            {
+                                "type": "variable",
+                                "name": "public_cidr",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "private_cidr": [
+                            {
+                                "type": "variable",
+                                "name": "private_cidr",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ],
+                        "is_peering_required": [
+                            {
+                                "type": "variable",
+                                "name": "is_peering_required",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "check_id": "CKV2_AWS_34",
+                    "bc_check_id": "BC_AWS_GENERAL_143",
+                    "check_name": "AWS SSM Parameter should be Encrypted",
+                    "check_result": {
+                        "result": "FAILED",
+                        "entity": {
+                            "aws_ssm_parameter": {
+                                "vpc": {
+                                    "__end_line__": 5,
+                                    "__start_line__": 1,
+                                    "name": [
+                                        "/expense/dev/vpc_id"
+                                    ],
+                                    "type": [
+                                        "String"
+                                    ],
+                                    "value": [
+                                        "module.vpc.vpc"
+                                    ],
+                                    "__address__": "aws_ssm_parameter.vpc"
+                                }
+                            }
+                        },
+                        "evaluated_keys": [
+                            "type"
+                        ]
+                    },
+                    "code_block": [
+                        [
+                            1,
+                            "resource \"aws_ssm_parameter\" \"vpc\" {\n"
+                        ],
+                        [
+                            2,
+                            "  name  = \"/${var.project}/${var.environment}/vpc_id\"\n"
+                        ],
+                        [
+                            3,
+                            "  type  = \"String\"\n"
+                        ],
+                        [
+                            4,
+                            "  value = module.vpc.vpc #last .vpc is the output name name of the root module\n"
+                        ],
+                        [
+                            5,
+                            "}\n"
+                        ]
+                    ],
+                    "file_path": "/parameters.tf",
+                    "file_abs_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "repo_file_path": "/parameters.tf",
+                    "file_line_range": [
+                        1,
+                        5
+                    ],
+                    "resource": "aws_ssm_parameter.vpc",
+                    "evaluations": null,
+                    "check_class": "checkov.common.graph.checks_infra.base_check",
+                    "fixed_definition": null,
+                    "entity_tags": {},
+                    "caller_file_path": null,
+                    "caller_file_line_range": null,
+                    "resource_address": null,
+                    "severity": null,
+                    "bc_category": null,
+                    "benchmarks": null,
+                    "description": null,
+                    "short_description": null,
+                    "vulnerability_details": null,
+                    "connected_node": null,
+                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-ssm-parameter-is-encrypted",
+                    "details": [],
+                    "check_len": null,
+                    "definition_context_file_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "breadcrumbs": {
+                        "name": [
+                            {
+                                "type": "variable",
+                                "name": "environment",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "check_id": "CKV2_AWS_34",
+                    "bc_check_id": "BC_AWS_GENERAL_143",
+                    "check_name": "AWS SSM Parameter should be Encrypted",
+                    "check_result": {
+                        "result": "FAILED",
+                        "entity": {
+                            "aws_ssm_parameter": {
+                                "public_subnet_ids": {
+                                    "__end_line__": 11,
+                                    "__start_line__": 7,
+                                    "name": [
+                                        "/expense/dev/public_subnet_ids"
+                                    ],
+                                    "type": [
+                                        "StringList"
+                                    ],
+                                    "value": [
+                                        [
+                                            "${join(",
+                                            ",module.vpc.public_subnet_ids)}"
+                                        ]
+                                    ],
+                                    "__address__": "aws_ssm_parameter.public_subnet_ids"
+                                }
+                            }
+                        },
+                        "evaluated_keys": [
+                            "type"
+                        ]
+                    },
+                    "code_block": [
+                        [
+                            7,
+                            "resource \"aws_ssm_parameter\" \"public_subnet_ids\" {\n"
+                        ],
+                        [
+                            8,
+                            "  name  = \"/${var.project}/${var.environment}/public_subnet_ids\"\n"
+                        ],
+                        [
+                            9,
+                            "  type  = \"StringList\"\n"
+                        ],
+                        [
+                            10,
+                            "  value = join(\",\", module.vpc.public_subnet_ids)\n"
+                        ],
+                        [
+                            11,
+                            "}\n"
+                        ]
+                    ],
+                    "file_path": "/parameters.tf",
+                    "file_abs_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "repo_file_path": "/parameters.tf",
+                    "file_line_range": [
+                        7,
+                        11
+                    ],
+                    "resource": "aws_ssm_parameter.public_subnet_ids",
+                    "evaluations": null,
+                    "check_class": "checkov.common.graph.checks_infra.base_check",
+                    "fixed_definition": null,
+                    "entity_tags": {},
+                    "caller_file_path": null,
+                    "caller_file_line_range": null,
+                    "resource_address": null,
+                    "severity": null,
+                    "bc_category": null,
+                    "benchmarks": null,
+                    "description": null,
+                    "short_description": null,
+                    "vulnerability_details": null,
+                    "connected_node": null,
+                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-ssm-parameter-is-encrypted",
+                    "details": [],
+                    "check_len": null,
+                    "definition_context_file_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "breadcrumbs": {
+                        "name": [
+                            {
+                                "type": "variable",
+                                "name": "environment",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "check_id": "CKV2_AWS_34",
+                    "bc_check_id": "BC_AWS_GENERAL_143",
+                    "check_name": "AWS SSM Parameter should be Encrypted",
+                    "check_result": {
+                        "result": "FAILED",
+                        "entity": {
+                            "aws_ssm_parameter": {
+                                "private_subnet_ids": {
+                                    "__end_line__": 20,
+                                    "__start_line__": 16,
+                                    "name": [
+                                        "/expense/dev/private_subnet_ids"
+                                    ],
+                                    "type": [
+                                        "StringList"
+                                    ],
+                                    "value": [
+                                        [
+                                            "${join(",
+                                            ",module.vpc.private_subnet_ids)}"
+                                        ]
+                                    ],
+                                    "__address__": "aws_ssm_parameter.private_subnet_ids"
+                                }
+                            }
+                        },
+                        "evaluated_keys": [
+                            "type"
+                        ]
+                    },
+                    "code_block": [
+                        [
+                            16,
+                            "resource \"aws_ssm_parameter\" \"private_subnet_ids\" {\n"
+                        ],
+                        [
+                            17,
+                            "  name  = \"/${var.project}/${var.environment}/private_subnet_ids\"\n"
+                        ],
+                        [
+                            18,
+                            "  type  = \"StringList\"\n"
+                        ],
+                        [
+                            19,
+                            "  value = join(\",\", module.vpc.private_subnet_ids)\n"
+                        ],
+                        [
+                            20,
+                            "}\n"
+                        ]
+                    ],
+                    "file_path": "/parameters.tf",
+                    "file_abs_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "repo_file_path": "/parameters.tf",
+                    "file_line_range": [
+                        16,
+                        20
+                    ],
+                    "resource": "aws_ssm_parameter.private_subnet_ids",
+                    "evaluations": null,
+                    "check_class": "checkov.common.graph.checks_infra.base_check",
+                    "fixed_definition": null,
+                    "entity_tags": {},
+                    "caller_file_path": null,
+                    "caller_file_line_range": null,
+                    "resource_address": null,
+                    "severity": null,
+                    "bc_category": null,
+                    "benchmarks": null,
+                    "description": null,
+                    "short_description": null,
+                    "vulnerability_details": null,
+                    "connected_node": null,
+                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-ssm-parameter-is-encrypted",
+                    "details": [],
+                    "check_len": null,
+                    "definition_context_file_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "breadcrumbs": {
+                        "name": [
+                            {
+                                "type": "variable",
+                                "name": "environment",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ]
+                    }
+                },
+                {
+                    "check_id": "CKV2_AWS_34",
+                    "bc_check_id": "BC_AWS_GENERAL_143",
+                    "check_name": "AWS SSM Parameter should be Encrypted",
+                    "check_result": {
+                        "result": "FAILED",
+                        "entity": {
+                            "aws_ssm_parameter": {
+                                "database_subnet_group": {
+                                    "__end_line__": 26,
+                                    "__start_line__": 22,
+                                    "name": [
+                                        "/expense/dev/database_subnet_group"
+                                    ],
+                                    "type": [
+                                        "String"
+                                    ],
+                                    "value": [
+                                        "module.vpc.database_subnet_group"
+                                    ],
+                                    "__address__": "aws_ssm_parameter.database_subnet_group"
+                                }
+                            }
+                        },
+                        "evaluated_keys": [
+                            "type"
+                        ]
+                    },
+                    "code_block": [
+                        [
+                            22,
+                            "resource \"aws_ssm_parameter\" \"database_subnet_group\" {\n"
+                        ],
+                        [
+                            23,
+                            "  name  = \"/${var.project}/${var.environment}/database_subnet_group\"\n"
+                        ],
+                        [
+                            24,
+                            "  type  = \"String\"\n"
+                        ],
+                        [
+                            25,
+                            "  value = module.vpc.database_subnet_group\n"
+                        ],
+                        [
+                            26,
+                            "}"
+                        ]
+                    ],
+                    "file_path": "/parameters.tf",
+                    "file_abs_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "repo_file_path": "/parameters.tf",
+                    "file_line_range": [
+                        22,
+                        26
+                    ],
+                    "resource": "aws_ssm_parameter.database_subnet_group",
+                    "evaluations": null,
+                    "check_class": "checkov.common.graph.checks_infra.base_check",
+                    "fixed_definition": null,
+                    "entity_tags": {},
+                    "caller_file_path": null,
+                    "caller_file_line_range": null,
+                    "resource_address": null,
+                    "severity": null,
+                    "bc_category": null,
+                    "benchmarks": null,
+                    "description": null,
+                    "short_description": null,
+                    "vulnerability_details": null,
+                    "connected_node": null,
+                    "guideline": "https://docs.prismacloud.io/en/enterprise-edition/policy-reference/aws-policies/aws-general-policies/ensure-aws-ssm-parameter-is-encrypted",
+                    "details": [],
+                    "check_len": null,
+                    "definition_context_file_path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/parameters.tf",
+                    "breadcrumbs": {
+                        "name": [
+                            {
+                                "type": "variable",
+                                "name": "environment",
+                                "path": "/home/runner/work/HCL_usecase_6_EKS/HCL_usecase_6_EKS/vpc/variables.tf",
+                                "module_connection": false
+                            }
+                        ]
+                    }
+                }
+            ],
+            "skipped_checks": [],
+            "parsing_errors": []
+        },
+        "summary": {
+            "passed": 5,
+            "failed": 6,
+            "skipped": 0,
+            "parsing_errors": 0,
+            "resource_count": 4,
+            "checkov_version": "3.2.470"
+        },
+        "url": "Add an api key '--bc-api-key <api-key>' to see more detailed insights via https://bridgecrew.cloud"
+    },
+    {
+        "check_type": "terraform_plan",
+        "results": {
+            "passed_checks": [],
+            "failed_checks": [],
+            "skipped_checks": [],
+            "parsing_errors": [
+                "./checkov-report.json"
+            ]
+        },
+        "summary": {
+            "passed": 0,
+            "failed": 0,
+            "skipped": 0,
+            "parsing_errors": 1,
+            "resource_count": 0,
+            "checkov_version": "3.2.470"
+        },
+        "url": "Add an api key '--bc-api-key <api-key>' to see more detailed insights via https://bridgecrew.cloud"
+    }
+]
