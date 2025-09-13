@@ -1,5 +1,4 @@
-#This is just a sample output file for a terraform plan file ff.json... 
-{
+ {
   "result": [
     {
       "expressions": [
