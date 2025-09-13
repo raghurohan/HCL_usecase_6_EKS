@@ -1,4 +1,5 @@
 To explain the ff.json plan file iam creating this ; 
+# for complete details  --> check vpc module for clear picture of how OPA policies works
 
 // Terraform is going to create a VPC resource.
 // The CIDR block is a public address range (8.8.8.0/24) → NOT recommended for private infra.
