@@ -20,3 +20,4 @@ data "aws_ssm_parameter" "vpc_id" {
 data "aws_key_pair" "project" {
   key_name = "project"
 }
+

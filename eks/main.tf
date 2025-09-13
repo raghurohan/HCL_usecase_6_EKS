@@ -10,56 +10,61 @@
 # 8. once all the pods moves to green , delete the blue node group
 
 
-resource "aws_key_pair" "eks" {
-  key_name   = data.aws_key_pair.project.key_name  #just using some key which i created earlier 
-}
+# resource "aws_key_pair" "eks" {
+#   key_name   = data.aws_key_pair.project.key_name  #just using some key which i created earlier 
+# }
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
+  version = ">=18.0.0"
 
 
-  cluster_name    = "${var.project_name}-${var.environment}"
-  cluster_version = "1.31" #while upgrading the nodegroup and cluster , make sure to upgrade this version
+  name    = "${var.project_name}-${var.environment}"
+  kubernetes_version = "1.31" #while upgrading the nodegroup and cluster , make sure to upgrade this version
 
-  cluster_endpoint_public_access  = true #if false we need vpn to access eks cluster 
+  endpoint_public_access  = true #if false we need vpn to access eks cluster 
 
-  cluster_addons = {
+  addons = {
     coredns                = {}
-    eks-pod-identity-agent = {}
+    eks-pod-identity-agent = {
+      before_compute = true
+    }
     kube-proxy             = {}
-    vpc-cni                = {}
+    vpc-cni                = {
+      before_compute = true
+    }
   }
+
 
   vpc_id                   = data.aws_ssm_parameter.vpc_id.value
   subnet_ids               = local.private_subnet_ids
-  control_plane_subnet_ids = local.private_subnet_ids
 
-  create_cluster_security_group = false
-  cluster_security_group_id     = local.eks_control_plane_sg_id
+  create_security_group = false
+  additional_security_group_ids     = [local.eks_control_plane_sg_id]
 
   create_node_security_group = false
   node_security_group_id     = local.node_sg_id
 
   # the user which you used to create cluster will get admin access
+  # To add the current caller identity as an administrator
+  enable_cluster_creator_admin_permissions = true
 
-  # EKS Managed Node Group(s)
-  eks_managed_node_group_defaults = {
-    instance_types = ["m6i.large", "m5.large", "m5n.large", "m5zn.large"]
-  }
+
 
   eks_managed_node_groups = {
     blue = {
+      instance_types = ["t3.medium"] #by default eks takes ami as amazon linux 
       min_size      = 2
       max_size      = 10
       desired_size  = 2
       capacity_type = "SPOT"
       iam_role_additional_policies = {
         AmazonEBSCSIDriverPolicy          = "arn:aws:iam::aws:policy/service-role/AmazonEBSCSIDriverPolicy"
-        AmazonElasticFileSystemFullAccess = "arn:aws:iam::aws:policy/service-role/AmazonElasticFileSystemFullAccess"
+        AmazonElasticFileSystemFullAccess = "arn:aws:iam::aws:policy/AmazonElasticFileSystemFullAccess"
         ElasticLoadBalancingFullAccess = "arn:aws:iam::aws:policy/ElasticLoadBalancingFullAccess"
       }
       # EKS takes AWS Linux 2 as it's OS to the nodes
-      key_name = aws_key_pair.eks.key_name
+      key_name = data.aws_key_pair.project.key_name
     }
     # green = {
     #   min_size      = 2
@@ -74,11 +79,17 @@ module "eks" {
       # EKS takes AWS Linux 2 as it's OS to the nodes
       # key_name = aws_key_pair.eks.key_name
     }
-  
-
-  # Cluster access entry
-  # To add the current caller identity as an administrator
-  enable_cluster_creator_admin_permissions = true
-
   #}
 }
+
+resource "null_resource" "update_kube_config" {
+  depends_on = [module.eks]
+
+  provisioner "local-exec" {
+    command = <<EOT
+      aws eks --region us-east-1 update-kubeconfig --name ${module.eks.cluster_name} --kubeconfig ./generated_kubeconfig
+      echo "Kubeconfig generated and saved to ./generated_kubeconfig"
+    EOT
+  }
+}
+

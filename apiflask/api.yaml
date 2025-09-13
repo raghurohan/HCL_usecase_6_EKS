@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  labels:              # This is the label of the replicaset. This is used to identify the replicaset only.
+    tier: api
+spec:
+  replicas: 1               # Number of pods to be created
+  selector:
+    matchLabels:
+      tier: api        # This should be the label of the pod to which this replicaset will manage
+  template:
+    metadata:
+      labels:
+        tier: api      # if the pods are less than 3 , then new pods will be created with this label; 
+    spec:                # selector label should always be equal to template labels 
+      containers:
+      - name: api
+        image: 180294178330.dkr.ecr.us-east-1.amazonaws.com/apiflask:latest
+        
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: api
+spec:
+  type: NodePort
+  selector:
+    tier: api     # This is the label of the pod to which this service will route the traffic
+  ports:
+  - name: api
+    port: 5000         # Service Port , this is for other containers to communicate with nginx container
+    targetPort: 5000    # Container Port
+    protocol: TCP

@@ -2,7 +2,7 @@ terraform {
   required_providers {
     aws = {                     #provider name      
       source  = "hashicorp/aws" #source of provider
-      version = "5.84.0"        #version of provider
+      version = "~>6.0"        #version of provider
     }
   }
   backend "s3" { #backend info should always be in terraform block
