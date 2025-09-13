@@ -70,8 +70,11 @@ jobs:
         
     - name: Install terraform-docs
       run: |
-        curl -Lo terraform-docs https://github.com/terraform-docs/terraform-docs/releases/download/v0.16.0/terraform-docs-v0.16.0-linux-amd64.tar.gz && tar -xzf terraform-docs-v0.16.0-linux-amd64.tar.gz && chmod +x terraform-docs && mv terraform-docs /usr/local/bin/
-
+        curl -sSLo ./terraform-docs.tar.gz https://terraform-docs.io/dl/v0.20.0/terraform-docs-v0.20.0-$(uname)-amd64.tar.gz
+        tar -xzf terraform-docs.tar.gz
+        chmod +x terraform-docs
+        mv terraform-docs /some-dir-in-your-PATH/terraform-docs
+        
     - name: Generate terraform-docs
       run: terraform-docs markdown table . > terraform-docs.md
 
