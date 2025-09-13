@@ -95,6 +95,11 @@ jobs:
     - name: converting tfplan to readable json
       run : terraform show -json tfplan > tfplan.json
 
+    - name: List repo files
+      run: |
+        pwd
+        ls -la
+
     - name: Install OPA
       run: |
         curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
@@ -103,7 +108,7 @@ jobs:
 
     - name: Run OPA Rego Policy Check
       run: |
-        opa eval --data ./policy_opa/* --input ./tfplan.json "data" > opa-eval-output.json || true
+        opa eval --data ./policy_opa --input ./tfplan.json "data" > opa-eval-output.json || true
 
     - name: Upload OPA Eval Output as Artifact
       uses: actions/upload-artifact@v4
