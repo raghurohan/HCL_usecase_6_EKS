@@ -1,174 +1,175 @@
+
 name: Terraform Deploy 
 
 on:
   workflow_dispatch:
 
 jobs:
-#   VPC:
-#     runs-on: ubuntu-latest
-#     name: "VPC - Apply"
-#     defaults:
-#       run:
-#         working-directory: ./vpc/
+  VPC:
+    runs-on: ubuntu-latest
+    name: "VPC - Apply"
+    defaults:
+      run:
+        working-directory: ./vpc/
     
-# #When using aws-actions/configure-aws-credentials with OIDC, you must give 
-# #the job permission to request an OIDC ID token from GitHub
+#When using aws-actions/configure-aws-credentials with OIDC, you must give 
+#the job permission to request an OIDC ID token from GitHub
 
-#     permissions: #OIDC IAM Related
-#       id-token: write   # required for requesting OIDC token
-#       contents: read    # required for actions/checkout
+    permissions: #OIDC IAM Related
+      id-token: write   # required for requesting OIDC token
+      contents: read    # required for actions/checkout
 
-#     steps:
-#     - name: Checkout repo
-#       uses: actions/checkout@v3
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
 
-#     - name: Configure AWS credentials from role
-#       uses: aws-actions/configure-aws-credentials@v4
-#       with:
-#           role-to-assume: arn:aws:iam::180294178330:role/github_trust_role
-#           role-session-name: github-actions
-#           aws-region: us-east-1
+    - name: Configure AWS credentials from role
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+          role-to-assume: arn:aws:iam::180294178330:role/github_trust_role
+          role-session-name: github-actions
+          aws-region: us-east-1
 
-#     - name: Install Terraform
-#       uses: hashicorp/setup-terraform@v3
-#       with:
-#         terraform_version: 1.10.0
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.10.0
 
-#     - name: Terraform Format
-#       run: terraform fmt -recursive
+    - name: Terraform Format
+      run: terraform fmt -recursive
     
-#     - name: Install TFLint
-#       run: |
-#         curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+    - name: Install TFLint
+      run: |
+        curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
 
-#     - name: Run TFLint and Save Output
-#       run: |
-#         tflint --format json > tflint-output.json || true
+    - name: Run TFLint and Save Output
+      run: |
+        tflint --format json > tflint-output.json || true
 
-#     - name: Upload TFLint Output as Artifact
-#       uses: actions/upload-artifact@v4
-#       with:
-#         name: tflint-report
-#         path: |
-#           ./vpc/tflint-output.json
-#           ./vpc/tflint-output.txt
+    - name: Upload TFLint Output as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: tflint-report
+        path: |
+          ./vpc/tflint-output.json
+          ./vpc/tflint-output.txt
 
 
-#     - name: Install Checkov
-#       run: pip install checkov
+    - name: Install Checkov
+      run: pip install checkov
 
-#     - name: Run Checkov Scan and Save Report
-#       run: |
-#         checkov -d . --output json > checkov-report.json || true
+    - name: Run Checkov Scan and Save Report
+      run: |
+        checkov -d . --output json > checkov-report.json || true
 
-#     - name: Upload Checkov Report as Artifact
-#       uses: actions/upload-artifact@v4
-#       with:
-#         name: checkov-report
-#         path: ./vpc/checkov-report.json
+    - name: Upload Checkov Report as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: checkov-report
+        path: ./vpc/checkov-report.json
         
-#     - name: Install terraform-docs
-#       run: |
-#         curl -sSLo ./terraform-docs.tar.gz https://terraform-docs.io/dl/v0.20.0/terraform-docs-v0.20.0-$(uname)-amd64.tar.gz
-#         tar -xzf terraform-docs.tar.gz
-#         chmod +x terraform-docs
-#         mv terraform-docs /usr/local/bin/
+    - name: Install terraform-docs
+      run: |
+        curl -sSLo ./terraform-docs.tar.gz https://terraform-docs.io/dl/v0.20.0/terraform-docs-v0.20.0-$(uname)-amd64.tar.gz
+        tar -xzf terraform-docs.tar.gz
+        chmod +x terraform-docs
+        mv terraform-docs /usr/local/bin/
         
-#     - name: Generate terraform-docs
-#       run: terraform-docs markdown table . > terraform-docs.md
+    - name: Generate terraform-docs
+      run: terraform-docs markdown table . > terraform-docs.md
 
-#     - name: Upload terraform-docs as Artifact
-#       uses: actions/upload-artifact@v4
-#       with:
-#         name: terraform-docs
-#         path: ./vpc/terraform-docs.md
+    - name: Upload terraform-docs as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: terraform-docs
+        path: ./vpc/terraform-docs.md
 
-#     - name: Terraform Init
-#       run: terraform init -upgrade
+    - name: Terraform Init
+      run: terraform init -upgrade
 
-#     - name: Terraform Validate
-#       run: terraform validate 
+    - name: Terraform Validate
+      run: terraform validate 
 
-#     - name: Terraform Plan
-#       run: terraform plan -out=tfplan
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan
       
-#     - name: converting tfplan to readable json
-#       run : terraform show -json tfplan > tfplan.json
+    - name: converting tfplan to readable json
+      run : terraform show -json tfplan > tfplan.json
 
-#     - name: List repo files
-#       run: |
-#         pwd
-#         ls -la
+    - name: List repo files
+      run: |
+        pwd
+        ls -la
 
-#     - name: Install OPA
-#       run: |
-#         curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
-#         chmod +x opa
-#         mv opa /usr/local/bin/
+    - name: Install OPA
+      run: |
+        curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64
+        chmod +x opa
+        mv opa /usr/local/bin/
 
-#     - name: Run OPA Rego Policy Check
-#       run: |
-#         opa eval --data ./policy_opa --input ./tfplan.json "data" > opa-eval-output.json || true
+    - name: Run OPA Rego Policy Check
+      run: |
+        opa eval --data ./policy_opa --input ./tfplan.json "data" > opa-eval-output.json || true
 
-#     - name: Upload OPA Eval Output as Artifact
-#       uses: actions/upload-artifact@v4
-#       with:
-#         name: opa-eval-report
-#         path: ./vpc/opa-eval-output.json
+    - name: Upload OPA Eval Output as Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: opa-eval-report
+        path: ./vpc/opa-eval-output.json
 
-#     - name: Terraform Apply (extra debug info)
-#       if: github.ref == 'refs/heads/main'
-#       run: |
-#         terraform apply -auto-approve
-# ####################################################################
-#   SG:
-#     runs-on: ubuntu-latest
-#     name: "SG- Apply"
-#     needs: VPC # Wait for the VPC job to complete
-#     defaults:
-#       run:
-#         working-directory: ./sg/
+    - name: Terraform Apply (extra debug info)
+      if: github.ref == 'refs/heads/main'
+      run: |
+        terraform apply -auto-approve
+####################################################################
+  SG:
+    runs-on: ubuntu-latest
+    name: "SG- Apply"
+    needs: VPC # Wait for the VPC job to complete
+    defaults:
+      run:
+        working-directory: ./sg/
     
-# #When using aws-actions/configure-aws-credentials with OIDC, you must give 
-# #the job permission to request an OIDC ID token from GitHub
+#When using aws-actions/configure-aws-credentials with OIDC, you must give 
+#the job permission to request an OIDC ID token from GitHub
 
-#     permissions: #OIDC IAM Related
-#       id-token: write   # required for requesting OIDC token
-#       contents: read    # required for actions/checkout
+    permissions: #OIDC IAM Related
+      id-token: write   # required for requesting OIDC token
+      contents: read    # required for actions/checkout
 
-#     steps:
-#     - name: Checkout repo
-#       uses: actions/checkout@v3
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v3
 
-#     - name: Configure AWS credentials from role
-#       uses: aws-actions/configure-aws-credentials@v4
-#       with:
-#           role-to-assume: arn:aws:iam::180294178330:role/github_trust_role
-#           role-session-name: github-actions
-#           aws-region: us-east-1
+    - name: Configure AWS credentials from role
+      uses: aws-actions/configure-aws-credentials@v4
+      with:
+          role-to-assume: arn:aws:iam::180294178330:role/github_trust_role
+          role-session-name: github-actions
+          aws-region: us-east-1
 
-#     - name: Install Terraform
-#       uses: hashicorp/setup-terraform@v3
-#       with:
-#         terraform_version: 1.10.0
+    - name: Install Terraform
+      uses: hashicorp/setup-terraform@v3
+      with:
+        terraform_version: 1.10.0
 
-#     - name: Terraform Format
-#       run: terraform fmt -recursive
+    - name: Terraform Format
+      run: terraform fmt -recursive
 
-#     - name: Terraform Init
-#       run: terraform init
+    - name: Terraform Init
+      run: terraform init
 
-#     - name: Terraform Validate
-#       run: terraform validate 
+    - name: Terraform Validate
+      run: terraform validate 
 
-#     - name: Terraform Plan
-#       run: terraform plan -out=tfplan
+    - name: Terraform Plan
+      run: terraform plan -out=tfplan
 
 
-#     - name: Terraform Apply (extra debug info)
-#       if: github.ref == 'refs/heads/main'
-#       run: |
-#         terraform apply -auto-approve
+    - name: Terraform Apply (extra debug info)
+      if: github.ref == 'refs/heads/main'
+      run: |
+        terraform apply -auto-approve
 
 #######################################################################
   EKS:
@@ -269,4 +270,3 @@ jobs:
 #       run: |
 #         terraform apply -auto-approve
         
-
