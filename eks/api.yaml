@@ -29,8 +29,8 @@ spec:
     tier: nginx     # This is the label of the pod to which this service will route the traffic
   ports:
   - name: nginx
-    port: 5000         # Service Port , this is for other containers to communicate with nginx container
-    targetPort: 5000    # Container Port
+    port: 80         # Service Port , this is for other containers to communicate with nginx container
+    targetPort: 80    # Container Port
     protocol: TCP
 
 ---
