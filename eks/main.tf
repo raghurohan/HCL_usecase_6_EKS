@@ -89,8 +89,8 @@ resource "null_resource" "update_kube_config" {
     command = <<EOT
       aws eks --region us-east-1 update-kubeconfig --name ${module.eks.cluster_name} --kubeconfig ./generated_kubeconfig
       echo "Kubeconfig generated and saved to ./generated_kubeconfig"
-      export ALB_TARGET_GROUP_ARN=$(aws ssm get-parameter --name "/expense/dev/alb-target-group-arn" --query "Parameter.Value" --output text)
-      envsubst < api.yaml.tpl > api.yaml
+      # export ALB_TARGET_GROUP_ARN=$(aws ssm get-parameter --name "/expense/dev/alb-target-group-arn" --query "Parameter.Value" --output text)
+      # envsubst < api.yaml.tpl > api.yaml
       kubectl apply -f api.yaml
     EOT
   }
