@@ -43,16 +43,16 @@ spec:
 # 5. Update the target group binding for the service
 ################################################################################################
 
-#target_group_binding 
+# #target_group_binding 
 
-apiVersion: elbv2.k8s.aws/v1beta1
-kind: TargetGroupBinding
-metadata:
-  name: frontend
-  namespace: expense
-spec:
-  serviceRef:
-    name: nginx
-    namespace: expense
-  targetGroupARN: "${ALB_TARGET_GROUP_ARN}"
-  targetType: ip #most important part because we are using ip target type in conatiners and not instance
+# apiVersion: elbv2.k8s.aws/v1beta1
+# kind: TargetGroupBinding
+# metadata:
+#   name: frontend
+#   namespace: expense
+# spec:
+#   serviceRef:
+#     name: nginx
+#     namespace: expense
+#   targetGroupARN: "${ALB_TARGET_GROUP_ARN}"
+#   targetType: ip #most important part because we are using ip target type in conatiners and not instance
