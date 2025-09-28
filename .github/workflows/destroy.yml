@@ -9,50 +9,50 @@ on:
         default: 'dev'
 
 jobs:
-  alb:
-    runs-on: ubuntu-latest
-    name: "alb - destroy"
-    defaults:
-      run:
-        working-directory: ./alb/
+#   alb:
+#     runs-on: ubuntu-latest
+#     name: "alb - destroy"
+#     defaults:
+#       run:
+#         working-directory: ./alb/
     
-#When using aws-actions/configure-aws-credentials with OIDC, you must give 
-#the job permission to request an OIDC ID token from GitHub
+# #When using aws-actions/configure-aws-credentials with OIDC, you must give 
+# #the job permission to request an OIDC ID token from GitHub
 
-    permissions: #OIDC IAM Related
-      id-token: write   # required for requesting OIDC token
-      contents: read    # required for actions/checkout
+#     permissions: #OIDC IAM Related
+#       id-token: write   # required for requesting OIDC token
+#       contents: read    # required for actions/checkout
 
-    steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+#     steps:
+#     - name: Checkout repo
+#       uses: actions/checkout@v3
 
-    - name: Configure AWS credentials from role
-      uses: aws-actions/configure-aws-credentials@v4
-      with:
-          role-to-assume: arn:aws:iam::180294178330:role/github_trust_role
-          role-session-name: github-actions
-          aws-region: us-east-1
+#     - name: Configure AWS credentials from role
+#       uses: aws-actions/configure-aws-credentials@v4
+#       with:
+#           role-to-assume: arn:aws:iam::180294178330:role/github_trust_role
+#           role-session-name: github-actions
+#           aws-region: us-east-1
 
-    - name: Install Terraform
-      uses: hashicorp/setup-terraform@v3
-      with:
-        terraform_version: 1.10.0
+#     - name: Install Terraform
+#       uses: hashicorp/setup-terraform@v3
+#       with:
+#         terraform_version: 1.10.0
 
-    - name: Terraform Format
-      run: terraform fmt -recursive
+#     - name: Terraform Format
+#       run: terraform fmt -recursive
 
-    - name: Terraform Init
-      run: terraform init
+#     - name: Terraform Init
+#       run: terraform init
 
-    - name: Terraform Validate
-      run: terraform validate 
+#     - name: Terraform Validate
+#       run: terraform validate 
 
-    - name: Terraform Plan
-      run: terraform plan -out=tfplan
+#     - name: Terraform Plan
+#       run: terraform plan -out=tfplan
         
-    - name: terraform destroy
-      run: terraform destroy -auto-approve
+#     - name: terraform destroy
+#       run: terraform destroy -auto-approve
 
 ######################################################################
   eks:
