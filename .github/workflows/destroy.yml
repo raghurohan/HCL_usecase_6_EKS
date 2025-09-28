@@ -12,7 +12,7 @@ jobs:
   eks:
     runs-on: ubuntu-latest
     name: "eks - destroy"
-    needs: alb # Wait for the alb job to complete
+    #needs: alb # Wait for the alb job to complete
     defaults:
       run:
         working-directory: ./eks/
